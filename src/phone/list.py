@@ -18,9 +18,8 @@ class nudo():
         self.apuntadores[valor_letra] = nodo
         self.nudos_ocupados += 1
 
-
-
-def phone_ass_main(lista_telefonos):
+@profile
+def phone_ass_core(lista_telefonos):
     raiz_trie = nudo(-1)
     
     logger_cagada.debug("la lista a procesar %s" % lista_telefonos)
@@ -73,14 +72,13 @@ def phone_ass_main(lista_telefonos):
         
     return True
         
-
-if __name__ == '__main__':
+@profile
+def telefonass_main():
     res = False
     idx_linea = 0
     numero_casos = 0
     num_telefonos = 0
     lineas = []
-    lista_telefonos = []
     
     logging.basicConfig(level=nivel_log)
     logger_cagada = logging.getLogger("asa")
@@ -93,18 +91,26 @@ if __name__ == '__main__':
     
     idx_linea = 1
     for caso_actual in range(numero_casos):
+        lista_telefonos = []
+        
+        logger_cagada.debug("indice caso %d, indice idx %d" % (caso_actual, idx_linea))
+        logger_cagada.debug("numero en cadena %s" % lineas[idx_linea])
         num_telefonos = int(lineas[idx_linea])
         
-        logger_cagada.debug("numero de tels %s" % num_telefonos)
+        logger_cagada.debug("numero de tels %s en caso %d" % (num_telefonos, caso_actual))
         idx_linea += 1
-        lista_telefonos = lineas[idx_linea:idx_linea + num_telefonos ]
+        for linea_act in lineas[idx_linea:idx_linea + num_telefonos ]:
+            lista_telefonos.append(linea_act)
+
+        lista_telefonos.sort()
         logger_cagada.debug("la lista de tesl %s" % lista_telefonos)
-        res = phone_ass_main(lista_telefonos)
+        res = phone_ass_core(lista_telefonos)
         if(res):
             print("YES")
         else:
             print("NO")
         
         idx_linea += num_telefonos
-    
-    
+        
+if __name__ == '__main__':
+    telefonass_main()
