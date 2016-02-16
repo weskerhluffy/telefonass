@@ -3,6 +3,8 @@
  *
  *  Created on: 15/02/2016
  *      Author: ernesto
+ *
+ *      http://www.spoj.com/problems/PHONELST/
  */
 
 #include <stdio.h>
